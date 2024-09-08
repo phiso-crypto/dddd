@@ -41,15 +41,6 @@ const sendRequest = async (url, index) => {
     console.log(`Seçilen istek tipi: ${requestType}`); 
 
     switch (requestType) {
-      case 'DELETE':
-        const targetUrl2 = `${url}?A=${'A'.repeat(1024 * 10)}`;
-        axios.delete(targetUrl2, { headers })
-      case 'PATCH':
-        axios.patch(url, postData, { headers })
-        break;
-      case 'PUT':
-        await axios.put(url, postData, { headers });
-        break;
       case 'HEAD':
         await axios.head(url, { headers });
         break;
