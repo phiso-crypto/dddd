@@ -1,0 +1,19 @@
+{
+  "name": "proxy-request-with-threads",
+  "version": "1.0.0",
+  "description": "A Node.js script that uses worker_threads and undici to make HTTP requests with proxies.",
+  "main": "proxyRequestWithThreads.js",
+  "scripts": {
+    "start": "node proxyRequestWithThreads.js"
+  },
+  "dependencies": {
+    "undici": "^5.13.0",
+    "https-proxy-agent": "^5.0.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
